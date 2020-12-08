@@ -1,10 +1,12 @@
 package com.example.CarExplorerBackend.controllers;
 
-import com.example.CarExplorerBackend.models.Feature;
-import com.example.CarExplorerBackend.models.Vehicle;
+import com.example.CarExplorerBackend.models.*;
 import com.example.CarExplorerBackend.repositories.FeatureRepository;
+import com.example.CarExplorerBackend.repositories.ModelRepository;
+import com.example.CarExplorerBackend.repositories.ShowroomRepository;
 import com.example.CarExplorerBackend.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.codec.ServerSentEventHttpMessageWriter;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class VehicleController {
 
     @Autowired
@@ -20,13 +23,37 @@ public class VehicleController {
     @Autowired
     FeatureRepository featureRepository;
 
+    @Autowired
+    ModelRepository modelRepository;
+
+    @Autowired
+    ShowroomRepository showroomRepository;
+
     @GetMapping("/api/vehicles")
     public List<Vehicle> getAllVehicles() {
         return (List<Vehicle>) repository.findAll();
     }
 
-    @PostMapping("/api/vehicle")
-    public Vehicle createVehicle(@RequestBody() Vehicle vehicle) {
+    @PostMapping("/api/showrooms/{showroomId}/models/{modelId}/vehicles")
+    public Vehicle createVehicleByShowroom(@PathVariable("showroomId") Integer sid,
+            @PathVariable("modelId") Integer mid,
+                                 @RequestBody() Vehicle vehicle) {
+        Showroom showroom = showroomRepository.findById(sid).get();
+        Model model = modelRepository.findById(mid).get();
+        vehicle.setShowroom(showroom);
+        vehicle.setModel(model);
+        vehicle.setFeatureList(vehicle.getFeatureList());
+        return repository.save(vehicle);
+    }
+
+    @PostMapping("/api/models/{modelId}/vehicles")
+    public Vehicle createVehicle(
+                                           @PathVariable("modelId") Integer mid,
+                                           @RequestBody() Vehicle vehicle) {
+
+        Model model = modelRepository.findById(mid).get();
+
+        vehicle.setModel(model);
         return repository.save(vehicle);
     }
 

@@ -13,10 +13,12 @@ public class Vehicle {
     Integer vehicleId;
 
     String color;
+    Double vehiclePrice;
+
 
     @ManyToOne
     @JoinColumn(name = "modelId")
-    @JsonIgnore
+        @JsonIgnore
     Model model;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
@@ -26,6 +28,13 @@ public class Vehicle {
             inverseJoinColumns = {@JoinColumn(name = "featureId")})
     private List<Feature> featureList;
 
+    public Double getVehiclePrice() {
+        return vehiclePrice;
+    }
+
+    public void setVehiclePrice(Double vehiclePrice) {
+        this.vehiclePrice = vehiclePrice;
+    }
 
     public Integer getVehicleId() {
         return vehicleId;
