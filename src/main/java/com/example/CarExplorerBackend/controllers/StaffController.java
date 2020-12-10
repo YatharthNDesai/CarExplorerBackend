@@ -23,14 +23,13 @@ public class StaffController {
                              @RequestBody() Staff staff) {
         staff.setShowroom(showroomRepository.findById(sid).get());
 
-        if (staff.getManager()) {
             if (staff.getShowroom().getManager() == null) {
                 staff.getShowroom().setManager(staff);
             }
             else{
                 staff.setManager(false);
             }
-        }
+
         return repository.save(staff);
     }
 
@@ -42,6 +41,6 @@ public class StaffController {
     @DeleteMapping("/api/staff/{staffId}")
     public int deleteStaff(@PathVariable("staffId") Integer staffId) {
         repository.deleteById(staffId);
-        return 1;   
+        return 1;
     }
 }

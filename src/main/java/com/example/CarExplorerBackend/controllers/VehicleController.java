@@ -79,4 +79,9 @@ public class VehicleController {
 
     }
 
+    @GetMapping("/api/vehicles/{vehicleId}/features")
+    public List<Feature> getFeaturesForVehicle(@PathVariable("vehicleId") Integer vehicleId) {
+        return repository.findById(vehicleId).get().getFeatureList();
+    }
+
 }

@@ -19,8 +19,14 @@ public class FeatureController {
         return (List<Feature>) repository.findAll();
     }
 
-    @PostMapping("/api/feature")
-    public void createFeature(@RequestBody() Feature feature) {
-        repository.save(feature);
+    @PostMapping("/api/features")
+    public Feature createFeature(@RequestBody() Feature feature) {
+        return repository.save(feature);
+    }
+
+    @DeleteMapping("/api/features/{featureId}")
+    public int deleteFeature (@PathVariable("featureId") Integer featureId) {
+        repository.deleteById(featureId);
+        return 1;
     }
 }

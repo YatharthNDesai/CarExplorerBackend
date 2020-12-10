@@ -30,12 +30,12 @@ public class ShowroomController {
     }
 
     @PutMapping("/api/showrooms/{showroomId}/staff/{staffId}")
-    public void changeManager(@PathVariable("showroomId") Integer showroomId,
+    public Showroom changeManager(@PathVariable("showroomId") Integer showroomId,
                                @PathVariable("staffId")Integer staffId) {
         Showroom showroom = repository.findById(showroomId).get();
         showroom.getManager().setManager(false);
         showroom.setManager(staffRepository.findById(staffId).get());
         showroom.getManager().setManager(true);
-        repository.save(showroom);
+        return repository.save(showroom);
     }
 }
