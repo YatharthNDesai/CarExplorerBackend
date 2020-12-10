@@ -22,6 +22,18 @@ public class Model {
     String modelName;
     Double modelPrice;
 
+    public List<Vehicle> getVehicleList() {
+        return vehicleList;
+    }
+
+    public void setVehicleList(List<Vehicle> vehicleList) {
+        this.vehicleList = vehicleList;
+    }
+
+    @OneToMany(mappedBy = "model")
+    private List<Vehicle> vehicleList;
+
+
     public Integer getModelId() {
         return modelId;
     }

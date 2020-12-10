@@ -2,6 +2,7 @@ package com.example.CarExplorerBackend.controllers;
 
 import com.example.CarExplorerBackend.models.Brand;
 import com.example.CarExplorerBackend.models.Model;
+import com.example.CarExplorerBackend.models.Vehicle;
 import com.example.CarExplorerBackend.repositories.BrandRepository;
 import com.example.CarExplorerBackend.repositories.ModelRepository;
 import com.example.CarExplorerBackend.repositories.VehicleRepository;
@@ -40,5 +41,16 @@ public class ModelController {
         Brand brand = brandRepository.findById(bid).get();
         model.setBrand(brand);
         return repository.save(model);
+    }
+
+    @DeleteMapping("/api/models/{modelId}")
+    public int deleteModel(@PathVariable("modelId") Integer modelId) {
+        repository.deleteById(modelId);
+        return 1;
+    }
+
+    @GetMapping("/api/models/{modelId}/vehicles")
+    public List<Vehicle> getVehiclesForModel(@PathVariable("modelId") Integer mid) {
+        return repository.findById(mid).get().getVehicleList();
     }
 }

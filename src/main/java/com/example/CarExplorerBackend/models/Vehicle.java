@@ -18,7 +18,7 @@ public class Vehicle {
 
     @ManyToOne
     @JoinColumn(name = "modelId")
-        @JsonIgnore
+    @JsonIgnore
     Model model;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)

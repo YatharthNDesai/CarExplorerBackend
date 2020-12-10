@@ -7,6 +7,8 @@ import com.example.CarExplorerBackend.repositories.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*")
 public class StaffController {
@@ -30,5 +32,16 @@ public class StaffController {
             }
         }
         return repository.save(staff);
+    }
+
+    @GetMapping("/api/staff")
+    public List<Staff> getAllStaff(){
+        return (List<Staff>) repository.findAll();
+    }
+
+    @DeleteMapping("/api/staff/{staffId}")
+    public int deleteStaff(@PathVariable("staffId") Integer staffId) {
+        repository.deleteById(staffId);
+        return 1;   
     }
 }

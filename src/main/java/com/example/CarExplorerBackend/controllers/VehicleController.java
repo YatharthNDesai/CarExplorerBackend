@@ -36,8 +36,8 @@ public class VehicleController {
 
     @PostMapping("/api/showrooms/{showroomId}/models/{modelId}/vehicles")
     public Vehicle createVehicleByShowroom(@PathVariable("showroomId") Integer sid,
-            @PathVariable("modelId") Integer mid,
-                                 @RequestBody() Vehicle vehicle) {
+                                           @PathVariable("modelId") Integer mid,
+                                           @RequestBody() Vehicle vehicle) {
         Showroom showroom = showroomRepository.findById(sid).get();
         Model model = modelRepository.findById(mid).get();
         vehicle.setShowroom(showroom);
@@ -48,8 +48,8 @@ public class VehicleController {
 
     @PostMapping("/api/models/{modelId}/vehicles")
     public Vehicle createVehicle(
-                                           @PathVariable("modelId") Integer mid,
-                                           @RequestBody() Vehicle vehicle) {
+            @PathVariable("modelId") Integer mid,
+            @RequestBody() Vehicle vehicle) {
 
         Model model = modelRepository.findById(mid).get();
 
@@ -71,4 +71,12 @@ public class VehicleController {
         featureList.addAll(featuresToAdd);
         return repository.save(vehicle);
     }
+
+    @DeleteMapping("/api/vehicles/{vehicleId}")
+    public int deleteVehicle(@PathVariable("vehicleId") Integer vid) {
+        repository.deleteById(vid);
+        return 1;
+
+    }
+
 }
